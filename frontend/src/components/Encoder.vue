@@ -6,6 +6,8 @@
             <input class="input" type="text" v-model="url">
             <button class="button-is-success" v-on:click="shortUrl">Encode</button>
           </div> 
+          <br>
+        <a v-if="short" :href="short">{{short}}</a> 
       <!-- </form> -->
     </div>
 </template>
@@ -13,11 +15,22 @@
 <script>
   export default {
     data: () => ({ 
-      url: ""
+      url: "",
+      short: ""
     }),
     methods: {
-      shortUrl: function (event) {
-        return axios.post('http://localhost:3000/short-url', this.url)
+      shortUrl: function () {
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: this.url })
+        };
+
+        fetch('http://localhost:3000/short-url', requestOptions)
+        .then(response => response.json())
+        .then(data => (this.short = data.shortUrl));
+
+        console.log(this.short)
       }
     }
   }

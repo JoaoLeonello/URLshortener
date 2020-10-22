@@ -4,7 +4,6 @@ const showUrl = async (req, res) => {
     try {
         const result = await db.url_operation.findAll()
 
-        console.log(result)
         return res.json({
             result
         });

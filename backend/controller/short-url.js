@@ -4,14 +4,10 @@ var moment = require('moment');
 
 const shortUrl = (req, res) => {
     let {url} = req.body;
-    let expiresIn = moment().add(1, 'days').format('YYYY-MM-DD');
+    let expiresIn = toString(moment().add(1, 'days').format('YYYY-MM-DD'));
 
     // gerar código da url
     let encode = cryptoRandomString({length: 6});
-
-    console.log('url', url)
-    console.log('encode', encode)
-    console.log('expire', expiresIn)
 
     // inserir no banco
     db.url_operation.create({
@@ -21,7 +17,7 @@ const shortUrl = (req, res) => {
     })
 
     return res.json({
-        shortUrl: 'localhost:3000/' + encode,
+        shortUrl: 'redirect/' + encode,
     })
 }
 

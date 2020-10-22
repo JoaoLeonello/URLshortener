@@ -4,10 +4,10 @@
         <h3 class='subtitle'>URL Encoder</h3>
           <div class="control">
             <input class="input" type="text" v-model="url">
-            <button class="button-is-success" v-on:click="shortUrl">Encode</button>
+            <button type="button" class="button-is-success" v-on:click="shortUrl">Encode</button>
           </div> 
           <br>
-        <a v-if="short" :href="short" v-on:click="redirectUrl">{{short}}</a> 
+        <a v-if="short" :href="url" v-on:click="redirectUrl">{{short}}</a> 
     </div>
   </form>  
 </template>
@@ -24,41 +24,39 @@
         if(this.url === "") {
           console.log("error")
         } else {
-          console.log(this.url)
-
           const requestOptions = {
           method: "POST",
-          headers: { "Content-Type": "application/json", "Access-Control-Allow-Headers": "all"},
+          headers: { "Content-Type": "application/json"},
           body: JSON.stringify({ url: this.url })
         };
 
-        fetch('http://localhost:3000/show-url', requestOptions)
+        fetch('http://localhost:3000/short-url', requestOptions)
         .then(response => response.json())
         .then(data => (this.short = data.shortUrl));
-
-       
-        console.log(this.short)
         }
+
+        this.fetchAllUrl();
       },
       redirectUrl: function () {
         let url;
         this.allUrl.forEach(e => {
           if(e.urlencoded == this.short) {
             url = e.url;
+            console.log(url);
+            window.location.replace(url);
           }
-        })
-        window.location.replace(url);
-      }
-    },
-    mounted(){
+        });
+      },
+      fetchAllUrl: function () {
         const requestOptions = {
-          method: "POST",
+          method: "GET",
           headers: { "Content-Type": "application/json"}
         };
 
-        fetch('http://localhost:3000/short-url', requestOptions)
+        fetch('http://localhost:3000/show-url', requestOptions)
         .then(response => response.json())
-        .then(data => (this.result = data.allUrl));
+        .then(data => (this.allUrl = data.result));
+      }
     }
   }
 </script>

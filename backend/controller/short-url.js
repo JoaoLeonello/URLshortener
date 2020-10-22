@@ -4,7 +4,7 @@ var moment = require('moment');
 
 const shortUrl = (req, res) => {
     let {url} = req.body;
-    let expiresIn = toString(moment().add(1, 'days').format('YYYY-MM-DD'));
+    let expiresIn = moment().add(1, 'day').format('YYYY-MM-DD');
 
     // gerar código da url
     let encode = cryptoRandomString({length: 6});
@@ -13,7 +13,7 @@ const shortUrl = (req, res) => {
     db.url_operation.create({
         urlencoded: encode,
         url: url,
-        expire: expiresIn,
+        expiresIn: expiresIn,
     })
 
     // redirect/

@@ -23,4 +23,4 @@ app.post('/short-url', shortUrl);
 app.get('/show-url', showUrl);
 app.get('/:encoded', proxy, redirect);
 
-app.listen(port, () => console.log('server started on port', port));
+app.listen(app.listen(3000));

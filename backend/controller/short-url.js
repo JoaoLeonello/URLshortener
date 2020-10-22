@@ -19,7 +19,7 @@ const shortUrl = (req, res) => {
 
     // redirect/
     return res.json({
-        shortUrl: process.env.REDIRECT_LINK + encode,
+        shortUrl: process.env.REDIRECT_LINK+ '/' + encode,
     })
 }
 

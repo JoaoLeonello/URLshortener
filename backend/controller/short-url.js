@@ -1,6 +1,7 @@
 const db = require('../app/models');
 const cryptoRandomString = require('crypto-random-string');
 var moment = require('moment');
+require('dotenv/config');
 
 const shortUrl = (req, res) => {
     let {url} = req.body;
@@ -18,7 +19,7 @@ const shortUrl = (req, res) => {
 
     // redirect/
     return res.json({
-        shortUrl: 'localhost:3000/' + encode,
+        shortUrl: process.env.REDIRECT_LINK + encode,
     })
 }
 

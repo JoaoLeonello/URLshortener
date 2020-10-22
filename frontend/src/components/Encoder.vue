@@ -30,7 +30,7 @@
           body: JSON.stringify({ url: this.url })
         };
 
-        fetch('http://localhost:3000/short-url', requestOptions)
+        fetch(`${process.env.VUE_APP_API}/short-url`, requestOptions)
         .then(response => response.json())
         .then(data => (this.short = data.shortUrl));
         }
@@ -53,7 +53,7 @@
           headers: { "Content-Type": "application/json"}
         };
 
-        fetch('http://localhost:3000/show-url', requestOptions)
+        fetch(`${process.env.VUE_APP_API}/show-url`, requestOptions)
         .then(response => response.json())
         .then(data => (this.allUrl = data.result));
       }

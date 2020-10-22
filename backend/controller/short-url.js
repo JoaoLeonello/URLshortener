@@ -16,8 +16,9 @@ const shortUrl = (req, res) => {
         expire: expiresIn,
     })
 
+    // redirect/
     return res.json({
-        shortUrl: 'redirect/' + encode,
+        shortUrl: 'localhost:3000/' + encode,
     })
 }
 

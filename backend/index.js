@@ -3,6 +3,8 @@ var cors = require('cors')
 
 const shortUrl = require('./controller/short-url');
 const showUrl = require('./controller/show-url');
+const proxy = require('./controller/proxy');
+const redirect = require('./controller/redirect');
 
 const app = express();
 
@@ -19,5 +21,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.post('/short-url', shortUrl);
 app.get('/show-url', showUrl);
+app.get('/:encoded', proxy, redirect);
 
 app.listen(3000);

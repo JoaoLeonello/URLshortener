@@ -2,14 +2,16 @@ const express = require('express');
 var cors = require('cors')
 
 const shortUrl = require('./controller/short-url');
-const urlFinder = require('./controller/url-finder');
+const showUrl = require('./controller/show-url');
 
 const app = express();
 
 app.use(cors())
-app.use(express.urlencoded({ extended: false }));
+
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true }));
 
 app.post('/short-url', shortUrl);
-app.get('/:param', urlFinder);
+app.get('/show-url', showUrl);
 
 app.listen(3000);

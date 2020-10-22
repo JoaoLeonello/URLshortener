@@ -1,28 +1,22 @@
 const db = require('../app/models');
 const cryptoRandomString = require('crypto-random-string');
+var moment = require('moment');
 
 const shortUrl = (req, res) => {
-    let url = req.body;
-    let today = new Date();
-    let expiresIn = today.setDate(today.getDate() + 1)
-
-    console.log(url)
-    if(url.length == 0) {
-        console.log('aqui')
-        return res.status(400).json({
-            data: "As informações da requisição estão erradas...",
-        });
-    }
-
-    let urlToString = toString(url);
+    let {url} = req.body;
+    let expiresIn = moment().add(1, 'days').format('YYYY-MM-DD');
 
     // gerar código da url
-    let encode = cryptoRandomString({length: 10});
+    let encode = cryptoRandomString({length: 6});
+
+    console.log('url', url)
+    console.log('encode', encode)
+    console.log('expire', expiresIn)
 
     // inserir no banco
     db.url_operation.create({
         urlencoded: encode,
-        url: urlToString,
+        url: url,
         expire: expiresIn,
     })
 

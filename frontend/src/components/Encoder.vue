@@ -1,37 +1,64 @@
 <template>
+  <form>
     <div class="wrapper">
-      <!-- <form class="form" @submit.prevent="save"> -->
         <h3 class='subtitle'>URL Encoder</h3>
           <div class="control">
             <input class="input" type="text" v-model="url">
             <button class="button-is-success" v-on:click="shortUrl">Encode</button>
           </div> 
           <br>
-        <a v-if="short" :href="short">{{short}}</a> 
-      <!-- </form> -->
+        <a v-if="short" :href="short" v-on:click="redirectUrl">{{short}}</a> 
     </div>
+  </form>  
 </template>
 
 <script>
   export default {
     data: () => ({ 
       url: "",
-      short: ""
+      short: "",
+      allUrl: "",
     }),
     methods: {
       shortUrl: function () {
+        if(this.url === "") {
+          console.log("error")
+        } else {
+          console.log(this.url)
+
+          const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Access-Control-Allow-Headers": "all"},
+          body: JSON.stringify({ url: this.url })
+        };
+
+        fetch('http://localhost:3000/show-url', requestOptions)
+        .then(response => response.json())
+        .then(data => (this.short = data.shortUrl));
+
+       
+        console.log(this.short)
+        }
+      },
+      redirectUrl: function () {
+        let url;
+        this.allUrl.forEach(e => {
+          if(e.urlencoded == this.short) {
+            url = e.url;
+          }
+        })
+        window.location.replace(url);
+      }
+    },
+    mounted(){
         const requestOptions = {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: this.url })
+          headers: { "Content-Type": "application/json"}
         };
 
         fetch('http://localhost:3000/short-url', requestOptions)
         .then(response => response.json())
-        .then(data => (this.short = data.shortUrl));
-
-        console.log(this.short)
-      }
+        .then(data => (this.result = data.allUrl));
     }
   }
 </script>
@@ -68,5 +95,4 @@
     text-align: center;
     font-family: 'Roboto', sans-serif;
   }
-
 </style>
